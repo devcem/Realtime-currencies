@@ -1,0 +1,40 @@
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+
+<table border="1">
+	<tr>
+		<td>USD/TRY</td>
+		<td id="usd-try">0.0</td>
+		<td id="usd-try-direction">-</td>
+	</tr>
+	<tr>
+		<td>EUR/TRY</td>
+		<td id="eur-try">0.0</td>
+		<td id="eur-try-direction">-</td>
+	</tr>
+</table>
+<script type="text/javascript">
+	function getCurrencyValue( interval ){
+		$.get('../service/?cache=' + Math.random(), function(data){
+			var currencies = (data);
+
+			for(var currencyIndex in currencies){
+				var currency = data[currencyIndex];
+
+				$('#' + currencyIndex).text(currency.value);
+				$('#' + currencyIndex + '-direction').text(currency.direction);
+			}
+
+			setTimeout(function(){
+				getCurrencyValue(interval);
+			}, interval);
+		});
+	}
+
+
+	$(document).ready(function(){
+		getCurrencyValue(10000);
+	});
+</script>
